@@ -38,7 +38,6 @@ func (t4 *Type4Handler) Init(cl *bw2bind.BW2Client, p *spawnable.Params) {
 	}
 }
 func (t4 *Type4Handler) Handle(m *bw2bind.SimpleMessage) {
-	fmt.Printf("handling message\n")
 	po := m.GetOnePODF("2.0.10.1")
 	if po == nil {
 		fmt.Printf("po mismatch\n")

@@ -81,9 +81,9 @@ func handleIncoming(ch chan *bw2bind.SimpleMessage) {
 			continue
 		}
 		mtype := binary.LittleEndian.Uint16(im.Payload)
-		fmt.Printf("Type was %d\n", mtype)
 		h, ok := Handlers[mtype]
 		if ok {
+			atomic.AddUint64(&c_forwarded, 1)
 			h.Handle(m)
 		} else {
 			fmt.Printf("no handler found\n")
