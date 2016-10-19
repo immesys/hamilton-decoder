@@ -51,7 +51,7 @@ func main() {
 		h.Init(cl, params)
 	}
     realuri:=listenuri + "*/s.hamilton/+/i.l7g/signal/" + signal
-    fmt.Printf("real listen uri is ",realuri)
+    fmt.Println("real listen uri is ",realuri)
 	ch := cl.SubscribeOrExit(&bw2bind.SubscribeParams{
 		AutoChain: true,
 		URI:       realuri,
