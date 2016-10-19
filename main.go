@@ -50,9 +50,11 @@ func main() {
 	for _, h := range Handlers {
 		h.Init(cl, params)
 	}
+    realuri:=listenuri + "*/s.hamilton/+/i.l7g/signal/" + signal
+    fmt.Printf("real listen uri is ",realuri)
 	ch := cl.SubscribeOrExit(&bw2bind.SubscribeParams{
 		AutoChain: true,
-		URI:       listenuri + "*/s.hamilton/+/i.l7g/signal/" + signal,
+		URI:       realuri,
 	})
 	for i := 0; i < 10; i++ {
 		go handleIncoming(ch)
