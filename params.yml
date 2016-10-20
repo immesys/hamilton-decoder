@@ -1,3 +1,5 @@
-listenuri: pandora/brz
+listenuri: amplab/sensors
 signal: dedup
 type4_base: amplab/sensors
+type5_base: amplab/sensors
+type6_base: amplab/sensors

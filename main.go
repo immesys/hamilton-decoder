@@ -7,36 +7,23 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/immesys/hamilton-decoder/common"
+
 	"github.com/immesys/spawnpoint/spawnable"
 	"gopkg.in/immesys/bw2bind.v5"
 )
 
-type message struct {
-	Srcmac  string `msgpack:"srcmac"`
-	Srcip   string `msgpack:"srcip"`
-	Popid   string `msgpack:"popid"`
-	Poptime int64  `msgpack:"poptime"`
-	Brtime  int64  `msgpack:"brtime"`
-	Rssi    int    `msgpack:"rssi"`
-	Lqi     int    `msgpack:"lqi"`
-	Payload []byte `msgpack:"payload"`
-}
-
-type TypeHandler interface {
-	Init(cl *bw2bind.BW2Client, p *spawnable.Params)
-	Handle(m *bw2bind.SimpleMessage)
-}
-
-var Handlers map[uint16]TypeHandler
+var Handlers map[uint16]common.TypeHandler
 var c_forwarded uint64
 var c_dropped uint64
 
-func Register(t uint16, h TypeHandler) {
+func Register(t uint16, h common.TypeHandler) {
 	if Handlers == nil {
-		Handlers = make(map[uint16]TypeHandler)
+		Handlers = make(map[uint16]common.TypeHandler)
 	}
 	Handlers[t] = h
 }
+
 func main() {
 	cl := bw2bind.ConnectOrExit("")
 	cl.SetEntityFromEnvironOrExit()
@@ -50,8 +37,8 @@ func main() {
 	for _, h := range Handlers {
 		h.Init(cl, params)
 	}
-    realuri:=listenuri + "*/s.hamilton/+/i.l7g/signal/" + signal
-    fmt.Println("real listen uri is ",realuri)
+	realuri := listenuri + "*/s.hamilton/+/i.l7g/signal/" + signal
+	fmt.Println("Beginning to listen on ", realuri)
 	ch := cl.SubscribeOrExit(&bw2bind.SubscribeParams{
 		AutoChain: true,
 		URI:       realuri,
@@ -65,7 +52,7 @@ func main() {
 func PrintStats() {
 	for {
 		time.Sleep(5 * time.Second)
-		fmt.Printf("forwarded=%d\n", c_forwarded)
+		fmt.Printf("forwarded=%d dropped=%d\n", c_forwarded, c_dropped)
 	}
 }
 
@@ -76,7 +63,7 @@ func handleIncoming(ch chan *bw2bind.SimpleMessage) {
 			fmt.Printf("po mismatch\n")
 			continue
 		}
-		im := message{}
+		im := common.Message{}
 		po.(bw2bind.MsgPackPayloadObject).ValueInto(&im)
 		if len(im.Payload) < 2 {
 			atomic.AddUint64(&c_dropped, 1)
@@ -86,9 +73,8 @@ func handleIncoming(ch chan *bw2bind.SimpleMessage) {
 		h, ok := Handlers[mtype]
 		if ok {
 			atomic.AddUint64(&c_forwarded, 1)
-			h.Handle(m)
+			h.Handle(m, &im)
 		} else {
-			fmt.Printf("no handler found\n")
 			atomic.AddUint64(&c_dropped, 1)
 		}
 	}
