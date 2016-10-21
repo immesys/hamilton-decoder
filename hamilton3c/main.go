@@ -79,6 +79,7 @@ func (t5 *MagAccHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 }
 
 func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
+	fmt.Println("t6 hit")
 	if len(im.Payload) < 24 {
 		return
 	}
@@ -134,5 +135,7 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 	})
 	if err != nil {
 		fmt.Printf("t6 failed to publish: %v\n", err)
+	} else {
+		fmt.Println("t6 pub")
 	}
 }
