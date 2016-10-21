@@ -93,6 +93,7 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 		raw := binary.LittleEndian.Uint16(im.Payload[6:])
 		mv := float64(int16(raw)) * 0.15625 //In millivolts
 		dat["tp_voltage"] = mv
+		fmt.Printf("voltage was %f mv\n", mv)
 		v := mv / 1000.0
 		die_temp := dat["tp_die_temp"].(float64)
 		tref := 298.15 //K
@@ -109,6 +110,7 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 		t_obj4 := math.Pow(die_temp, 4) + f_vo/S
 		t_obj := math.Pow(t_obj4, 1.0/4)
 		dat["radiant_temp"] = t_obj
+		fmt.Println("radiant was", t_obj)
 	}
 	if flags&0x04 != 0 { //hdc_tmp
 		raw := binary.LittleEndian.Uint16(im.Payload[8:])
