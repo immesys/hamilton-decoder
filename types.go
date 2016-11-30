@@ -41,9 +41,10 @@ func init() {
 	  uint16_t tmp_val;
 	  uint16_t hdc_tmp;
 	  uint16_t hdc_hum;
-	  int16_t light_lux;
-	  int16_t buttons;
+	  uint16_t light_lux;
+	  uint16_t buttons;
 	  uint64_t uptime;
+	  uint16_t occup;
 	} temp_measurement_t;
 	*/
 	Register(6, &hamilton3c.TempHandler{})
