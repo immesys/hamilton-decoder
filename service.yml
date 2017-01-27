@@ -1,0 +1,9 @@
+entity: decoder.ent
+container: jhkolb/spawnpoint:amd64
+source: git+http://github.com/immesys/hamilton-decoder
+build: [go get -d, go build -o svcexe]
+run: [./svcexe]
+memAlloc: 256M
+cpuShares: 256
+includedFiles: [params.yml]
+autoRestart: true

@@ -48,4 +48,8 @@ func init() {
 	} temp_measurement_t;
 	*/
 	Register(6, &hamilton3c.TempHandler{})
+
+	//7 is for anemometer
+
+	//
 }
