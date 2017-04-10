@@ -1,5 +1,7 @@
-listenuri: amplab/sensors
-signal: dedup
-type4_base: amplab/sensors
-type5_base: amplab/sensors
-type6_base: amplab/sensors
+listenuri: your/raw/or/dedup/uri
+signal: raw
+type4_base: output/uri
+type5_base: output/uri
+type6_base: output/uri
+type8_base: output/uri
+type8_deployment_rsecret: your_deployment_Secret

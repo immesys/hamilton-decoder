@@ -174,8 +174,8 @@ func (t *Handler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 
 	if f_flags&(1<<3) != 0 {
 		//HDC
-		rh := (float64(f_hdc_rh) / 65536) * 100
-		t := (float64(f_hdc_tmp)/65536)*165 - 40
+		rh := float64(f_hdc_rh) / 100
+		t := float64(f_hdc_tmp) / 100
 		dat["air_temp"] = t
 		dat["air_rh"] = rh
 		expn := (17.67 * t) / (t + 243.5)
