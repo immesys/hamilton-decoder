@@ -1,6 +1,10 @@
 package main
 
-import hamilton3cV2 "github.com/immesys/hamilton-decoder/hamilton3cV2"
+import (
+	"github.com/immesys/hamilton-decoder/hamilton3c"
+	hamilton3cV2 "github.com/immesys/hamilton-decoder/hamilton3cV2"
+	"github.com/immesys/hamilton-decoder/hamilton7"
+)
 
 func init() {
 	/* type 4 is emitted by hamilton-7 motes
@@ -15,7 +19,7 @@ func init() {
 	     uint64_t uptime;
 	   } measurement_t;
 	*/
-	//Register(4, &hamilton7.Hamilton7Handler{})
+	Register(4, &hamilton7.Hamilton7Handler{})
 
 	/* type 5 is emitted by hamilton-3c motes for orientation
 	typedef struct __attribute__((packed)) {
@@ -30,7 +34,7 @@ func init() {
 	  uint64_t uptime;
 	} mag_acc_measurement_t;
 	*/
-	//Register(5, &hamilton3c.MagAccHandler{})
+	Register(5, &hamilton3c.MagAccHandler{})
 
 	/* type 6 is emitted by hamilton-3c motes for temperature
 	typedef struct __attribute__((packed)) {
@@ -46,7 +50,7 @@ func init() {
 	  uint16_t occup;
 	} temp_measurement_t;
 	*/
-	//	Register(6, &hamilton3c.TempHandler{})
+	Register(6, &hamilton3c.TempHandler{})
 
 	//7 is for anemometer
 
