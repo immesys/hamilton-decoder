@@ -200,7 +200,7 @@ func (t *Handler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 	dat["time"] = float64(im.Brtime)
 	npo, _ := bw2bind.CreateMsgPackPayloadObject(bw2bind.FromDotForm("2.0.11.2"), dat)
 	err = t.cl.Publish(&bw2bind.PublishParams{
-		URI:            fmt.Sprintf("%ss.hamilton/%s/i.temperature/signal/operative", t.baseuri, im.Srcmac),
+		URI:            fmt.Sprintf("%ss.hamilton/%04x/i.temperature/signal/operative", t.baseuri, int(serial)),
 		PayloadObjects: []bw2bind.PayloadObject{npo},
 		AutoChain:      true,
 	})
