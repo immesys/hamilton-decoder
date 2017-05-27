@@ -92,7 +92,6 @@ typedef struct __attribute__((packed,aligned(4))) {
 } ham7c_t;
 */
 func (t *Handler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
-	fmt.Printf("payload length is %d\n", len(im.Payload))
 	if len(im.Payload) != 52 {
 		fmt.Printf("dropping hamilton-3c-v2 packet due to length mismatch: expected 52 got %d\n", len(im.Payload))
 	}
@@ -205,8 +204,6 @@ func (t *Handler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 		AutoChain:      true,
 	})
 	if err != nil {
-		fmt.Printf("tcrypt failed to publish: %v\n", err)
-	} else {
-		fmt.Println("tcrypt pub")
+		fmt.Printf("failed to publish: %v\n", err)
 	}
 }
