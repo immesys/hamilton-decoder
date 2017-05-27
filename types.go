@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/immesys/hamilton-decoder/hamilton3c"
+	_ "github.com/immesys/hamilton-decoder/hamilton3c"
 	hamilton3cV2 "github.com/immesys/hamilton-decoder/hamilton3cV2"
-	"github.com/immesys/hamilton-decoder/hamilton7"
+	_ "github.com/immesys/hamilton-decoder/hamilton7"
 )
 
 func init() {
