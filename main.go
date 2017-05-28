@@ -6,6 +6,7 @@ import (
 	"strings"
 	"sync/atomic"
 	"time"
+    "os"
 
 	"github.com/immesys/hamilton-decoder/common"
 
@@ -25,9 +26,16 @@ func Register(t uint16, h common.TypeHandler) {
 }
 
 func main() {
+    if len(os.Args) != 2 {
+        fmt.Printf("usage: decoder <paramsfile>\n")
+        os.Exit(1)
+    } 
 	cl := bw2bind.ConnectOrExit("")
 	cl.SetEntityFromEnvironOrExit()
-	params := spawnable.GetParamsOrExit()
+	params, err := spawnable.GetParamsFile(os.Args[1])
+    if err != nil {
+        panic(err)
+    }
 	signal := params.MustString("signal")
 	listenuri := params.MustString("listenuri")
 	if !strings.HasSuffix(listenuri, "/") {
