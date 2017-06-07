@@ -119,7 +119,7 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 	if len(im.Payload) < 26 {
 		return
 	}
-	fmt.Printf("payload: %x\n", im.Payload)
+	//fmt.Printf("payload: %x\n", im.Payload)
 	flags := binary.LittleEndian.Uint16(im.Payload[2:])
 	dat := make(map[string]interface{})
 	if flags&0x01 != 0 { //tmp_die
@@ -130,7 +130,7 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 		raw := binary.LittleEndian.Uint16(im.Payload[6:])
 		uv := float64(int16(raw)) * 0.15625
 		dat["tp_voltage"] = uv
-		fmt.Printf("voltage was %f uv\n", uv)
+		//fmt.Printf("voltage was %f uv\n", uv)
 		v := uv / 1000000.0
 		die_temp := dat["tp_die_temp"].(float64) + 273.15
 		tref := 298.15 //K
@@ -147,35 +147,35 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 		t_obj4 := math.Pow(die_temp, 4) + f_vo/S
 		t_obj := math.Pow(t_obj4, 1.0/4)
 		dat["radiant_temp"] = t_obj
-		fmt.Println("radiant was", t_obj)
+		//fmt.Println("radiant was", t_obj)
 	}
 	if flags&0x04 != 0 { //hdc_tmp
 		raw := binary.LittleEndian.Uint16(im.Payload[8:])
-		fmt.Printf("hdc_tmp raw: %d\n", raw)
+		//fmt.Printf("hdc_tmp raw: %d\n", raw)
 		dat["air_temp"] = (float64(raw)/65536)*165 - 40
 	}
 	if flags&0x08 != 0 { //hdc_rh
 		raw := binary.LittleEndian.Uint16(im.Payload[10:])
-		fmt.Printf("hdc_rh raw: %d\n", raw)
+		//fmt.Printf("hdc_rh raw: %d\n", raw)
 		dat["air_rh"] = (float64(raw) / 65536) * 100
 	}
 	if flags&0x10 != 0 { //lux
 		raw := binary.LittleEndian.Uint16(im.Payload[12:])
-		fmt.Printf("lux raw: %d\n", raw)
+		//fmt.Printf("lux raw: %d\n", raw)
 		dat["lux"] = math.Pow(10, float64(raw)/(65536.0/5.0))
 	}
 	if flags&0x20 != 0 { //buttons
 		raw := binary.LittleEndian.Uint16(im.Payload[14:])
-		fmt.Printf("buttons raw: %d\n", raw)
+		//fmt.Printf("buttons raw: %d\n", raw)
 		dat["button_events"] = raw
 	}
 	if flags&0x40 != 0 { //uptime
 		dat["uptime"] = binary.LittleEndian.Uint64(im.Payload[16:])
-		fmt.Printf("uptime raw: %d\n", binary.LittleEndian.Uint64(im.Payload[16:]))
+		//fmt.Printf("uptime raw: %d\n", binary.LittleEndian.Uint64(im.Payload[16:]))
 	}
 	if flags&0x80 != 0 { //occupancy
 		dat["presence"] = float64(binary.LittleEndian.Uint16(im.Payload[24:26])) / 32768
-		fmt.Printf("presence raw: %d\n", binary.LittleEndian.Uint16(im.Payload[24:26]))
+		//fmt.Printf("presence raw: %d\n", binary.LittleEndian.Uint16(im.Payload[24:26]))
 	}
 	if flags&0x07 == 0x07 { //we can do operative temperature
 		v := 0.2
@@ -192,6 +192,6 @@ func (t6 *TempHandler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 	if err != nil {
 		fmt.Printf("t6 failed to publish: %v\n", err)
 	} else {
-		fmt.Println("t6 pub")
+		//fmt.Println("t6 pub")
 	}
 }
