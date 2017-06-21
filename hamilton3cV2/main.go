@@ -205,5 +205,7 @@ func (t *Handler) Handle(sm *bw2bind.SimpleMessage, im *common.Message) {
 	})
 	if err != nil {
 		fmt.Printf("failed to publish: %v\n", err)
-	}
+	} else {
+        fmt.Printf("new format pub ok ser=%04x\n", int(serial))
+    }
 }
