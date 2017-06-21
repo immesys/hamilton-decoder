@@ -32,7 +32,7 @@ func main() {
     }
 	cl := bw2bind.ConnectOrExit("")
 	cl.SetEntityFromEnvironOrExit()
-	params, err := spawnable.GetParamsFile(os.Args[1])
+	params, err := spawnable.GetParamsFile(file)
     if err != nil {
         panic(err)
     }
