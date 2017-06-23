@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "github.com/immesys/hamilton-decoder/hamilton3c"
+	 "github.com/immesys/hamilton-decoder/hamilton3c"
 	hamilton3cV2 "github.com/immesys/hamilton-decoder/hamilton3cV2"
 	_ "github.com/immesys/hamilton-decoder/hamilton7"
 )
@@ -50,7 +50,7 @@ func init() {
 	  uint16_t occup;
 	} temp_measurement_t;
 	*/
-//	Register(6, &hamilton3c.TempHandler{})
+	Register(6, &hamilton3c.TempHandler{})
 
 	//7 is for anemometer
 
